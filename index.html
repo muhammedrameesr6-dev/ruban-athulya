@@ -744,6 +744,22 @@ footer{background:var(--navy);padding:56px 40px 96px;display:grid;
 .wlb-status{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cloud-deep)}
 .wlb-btn{background:none;border:1px solid rgba(142,169,198,.5);color:var(--navy);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;padding:5px 12px;cursor:pointer;text-transform:uppercase;border-radius:2px;transition:background .2s}
 .wlb-btn:hover{background:rgba(142,169,198,.16)}
+
+/* RSVP FORM */
+.rsvp-field-group{margin-bottom:20px;text-align:left}
+.rsvp-label{display:block;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);margin-bottom:8px}
+.rsvp-radio-group{display:flex;gap:12px;margin-top:6px}
+.rsvp-radio-opt{flex:1;cursor:pointer;position:relative}
+.rsvp-radio-opt input{position:absolute;opacity:0;pointer-events:none}
+.rsvp-radio-box{display:block;text-align:center;padding:12px 14px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;background:rgba(255,255,255,.65);color:var(--navy);transition:all .25s ease}
+.rsvp-radio-opt input:checked + .rsvp-radio-box{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 4px 14px rgba(43,53,80,.14)}
+.rsvp-select{cursor:pointer;background-color:transparent;color:var(--navy);padding-right:24px}
+.rsvp-select option{background:#fff;color:var(--navy)}
+.wc-meta-row{display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap}
+.wc-badge{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:12px;display:inline-block;font-weight:600}
+.wc-badge.accept{background:#e8f5ec;color:#236b37;border:1px solid rgba(35,107,55,.25)}
+.wc-badge.decline{background:#faeded;color:#9b3232;border:1px solid rgba(155,50,50,.25)}
+.wc-guests{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.12em;color:var(--cloud-deep)}
 #adminBar{display:none;position:fixed;top:0;left:0;right:0;z-index:400;background:rgba(34,44,70,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;padding:8px 16px;font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
 #adminBar.open{display:flex}
 .adm-bar-btn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:20px;padding:5px 14px;font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
@@ -817,10 +833,10 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
 <div id="wishesPassModal">
   <div class="adm-box">
     <div class="adm-title">Owner Access</div>
-    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--cloud-deep);margin:0 0 16px;">Enter password to view received wishes</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--cloud-deep);margin:0 0 16px;">Enter password to view received RSVPs &amp; wishes</p>
     <input id="wishesPassInput" type="password" inputmode="text" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Enter Password" autocomplete="off">
     <div class="adm-btn-row">
-      <button class="adm-btn primary" onclick="checkWishesPassword()">View Wishes</button>
+      <button class="adm-btn primary" onclick="checkWishesPassword()">View RSVPs</button>
       <button class="adm-btn ghost" onclick="closeWishesPassModal()">Cancel</button>
     </div>
   </div>
@@ -871,7 +887,7 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
   <div class="nav-links">
     <a href="#details">Wedding</a>
     <a href="#family">Family</a>
-    <a href="#wishes">Wishes</a>
+    <a href="#wishes">RSVP</a>
   </div>
 </nav>
 
@@ -1126,19 +1142,52 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
   </div>
 </section>
 
-<!-- WISHES -->
+<!-- RSVP & WISHES -->
 <section class="wishes-section" id="wishes">
   <div class="wishes-inner" id="wwall">
     <div class="reveal">
-      <p class="s-label">Your Blessings</p>
-      <h2 class="s-title">Send your<br><em>heartfelt wishes</em></h2>
+      <p class="s-label">Celebrate With Us</p>
+      <h2 class="s-title">Kindly<br><em>RSVP &amp; Blessings</em></h2>
       <div class="s-rule"></div>
     </div>
 
     <div class="wform reveal">
-      <input id="wisherName" class="wfield" type="text" maxlength="40" placeholder="Your name">
-      <textarea id="wisherMsg" class="wfield" maxlength="280" placeholder="Your message of love &amp; blessing&#8230;"></textarea>
-      <button class="wfl-submit" onclick="submitWish()">Send Your Wish</button>
+      <div class="rsvp-field-group">
+        <label class="rsvp-label" for="wisherName">Name</label>
+        <input id="wisherName" class="wfield" type="text" maxlength="60" placeholder="Your full name" autocomplete="name">
+      </div>
+
+      <div class="rsvp-field-group">
+        <label class="rsvp-label">Will You Attend?</label>
+        <div class="rsvp-radio-group">
+          <label class="rsvp-radio-opt">
+            <input type="radio" name="rsvpAttend" value="Yes, joyfully accept" checked onchange="toggleGuestCount(true)">
+            <span class="rsvp-radio-box">&#10003; Joyfully Accept</span>
+          </label>
+          <label class="rsvp-radio-opt">
+            <input type="radio" name="rsvpAttend" value="Regretfully decline" onchange="toggleGuestCount(false)">
+            <span class="rsvp-radio-box">&#10005; Regretfully Decline</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="rsvp-field-group" id="guestCountGroup">
+        <label class="rsvp-label" for="guestCount">Number of Guests</label>
+        <select id="guestCount" class="wfield rsvp-select">
+          <option value="1">1 Person</option>
+          <option value="2" selected>2 Persons</option>
+          <option value="3">3 Persons</option>
+          <option value="4">4 Persons</option>
+          <option value="5+">5+ Persons (Family)</option>
+        </select>
+      </div>
+
+      <div class="rsvp-field-group">
+        <label class="rsvp-label" for="wisherMsg">Message &amp; Wishes</label>
+        <textarea id="wisherMsg" class="wfield" maxlength="350" placeholder="Your message of love, blessing &amp; warm wishes&#8230;"></textarea>
+      </div>
+
+      <button class="wfl-submit" onclick="submitWish()">Confirm &amp; Send RSVP</button>
     </div>
 
     <!-- LOCKED STATE CARD (Visible to guests) -->
@@ -1149,27 +1198,27 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
       </div>
-      <div class="wlc-title">Private Blessings &amp; Wishes</div>
-      <p class="wlc-desc">All submitted wishes and heartfelt blessings are kept private for the couple.</p>
+      <div class="wlc-title">Private RSVPs &amp; Wishes</div>
+      <p class="wlc-desc">All submitted RSVPs, guest attendance, and heartfelt wishes are kept private for the couple.</p>
       <button type="button" class="wlc-btn" onclick="openWishesUnlockModal()">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-        View Wishes (Owner Login)
+        View RSVPs (Owner Login)
       </button>
     </div>
 
     <!-- UNLOCKED STATE (Visible only to Owner after Password) -->
     <div class="wwall" style="display:none">
       <div class="wishes-lock-bar">
-        <span class="wlb-status">🔒 Owner View Unlocked</span>
-        <button type="button" class="wlb-btn" onclick="relockWishes()">Lock Wishes</button>
+        <span class="wlb-status">🔒 Owner View: RSVPs &amp; Wishes</span>
+        <button type="button" class="wlb-btn" onclick="relockWishes()">Lock RSVPs</button>
       </div>
-      <p class="wish-count-label" style="display:none">&#10024; <span id="wishCount">0</span> blessings received</p>
+      <p class="wish-count-label" style="display:none">&#10024; <span id="wishCount">0</span> RSVPs received</p>
       <div id="wgrid">
         <div class="wish-skel"></div>
         <div class="wish-skel"></div>
       </div>
       <div id="loadmore-wrap" style="display:none">
-        <button id="loadMoreBtn" onclick="loadMore()">Load older wishes</button>
+        <button id="loadMoreBtn" onclick="loadMore()">Load older RSVPs</button>
       </div>
     </div>
   </div>
@@ -1756,7 +1805,24 @@ function wishCard(key, w) {
   var meta = document.createElement("div");
   var nm = document.createElement("div"); nm.className = "wc-name"; nm.textContent = String(w.name || "");
   var tm = document.createElement("div"); tm.className = "wc-time"; tm.textContent = String(w.time || "");
-  meta.append(nm, tm); top.append(av, meta);
+  meta.append(nm, tm);
+  if (w.attend) {
+    var metaRow = document.createElement("div");
+    metaRow.className = "wc-meta-row";
+    var badge = document.createElement("span");
+    var isAccept = (String(w.attend).indexOf("accept") >= 0 || String(w.attend).indexOf("Yes") >= 0);
+    badge.className = "wc-badge " + (isAccept ? "accept" : "decline");
+    badge.textContent = isAccept ? "Attending" : "Declined";
+    metaRow.appendChild(badge);
+    if (isAccept && w.guests && w.guests !== "0") {
+      var gst = document.createElement("span");
+      gst.className = "wc-guests";
+      gst.textContent = "👥 " + (w.guests === "1" ? "1 Guest" : (w.guests + " Guests"));
+      metaRow.appendChild(gst);
+    }
+    meta.appendChild(metaRow);
+  }
+  top.append(av, meta);
   var msg = document.createElement("p"); msg.className = "wc-msg"; msg.textContent = String(w.msg || "");
   var ftr = document.createElement("div"); ftr.className = "wc-footer";
   var hBtn = document.createElement("button"); hBtn.className = "wc-heart";
@@ -1846,36 +1912,53 @@ function startLive(afterKey) {
     if (adminMode) renderAdminReplyButtons();
   });
 }
+function toggleGuestCount(show) {
+  var g = document.getElementById("guestCountGroup");
+  if (g) g.style.display = show ? "block" : "none";
+}
 function submitWish() {
   var nameEl = document.getElementById("wisherName");
   var msgEl  = document.getElementById("wisherMsg");
   var btn    = document.querySelector(".wfl-submit");
   var name = nameEl.value.trim(), msg = msgEl.value.trim();
-  if (!name || !msg) { toast("Please add your name and a message", true); return; }
+  if (!name) { toast("Please enter your name", true); return; }
+  if (!msg) { toast("Please add your message & wishes", true); return; }
   if (!window.db) { toast("Connection unavailable — try again", true); return; }
+
+  var attendEl = document.querySelector('input[name="rsvpAttend"]:checked');
+  var attend = attendEl ? attendEl.value : "Yes, joyfully accept";
+  var guestsEl = document.getElementById("guestCount");
+  var guests = (attend.indexOf("accept") >= 0 && guestsEl) ? guestsEl.value : "0";
+
   btn.disabled = true; btn.style.opacity = ".5";
   var now = new Date(), ts = now.getTime(); recentlySubmittedTs = ts;
   var time = now.toLocaleDateString("en-GB", { day:"numeric", month:"short" }) + ", "
     + now.toLocaleTimeString("en-US", { hour:"numeric", minute:"2-digit" });
   var ref = window.db.ref(WISH_PATH).push();
   var ownKey = ref.key;
-  ref.set({ name:name, msg:msg, time:time, ts:ts }, function(err){
+  var payload = { name:name, attend:attend, guests:guests, msg:msg, time:time, ts:ts };
+  ref.set(payload, function(err){
     btn.disabled = false; btn.style.opacity = "";
     if (err) { toast("Could not send — check connection and tap SEND again", true); return; }  /* inputs preserved */
     var ownKeys = JSON.parse(localStorage.getItem(LS + "ownWishKeys") || "[]");
     ownKeys.unshift(ownKey); if (ownKeys.length > 20) ownKeys.length = 20;
     localStorage.setItem(LS + "ownWishKeys", JSON.stringify(ownKeys));
     nameEl.value = ""; msgEl.value = "";
+    var firstRadio = document.querySelector('input[name="rsvpAttend"][value="Yes, joyfully accept"]');
+    if (firstRadio) { firstRadio.checked = true; toggleGuestCount(true); }
+    var guestsSelect = document.getElementById("guestCount");
+    if (guestsSelect) guestsSelect.value = "2";
+
     if (isWishesUnlocked()) {
       var g = grid();
       if (g) {
         var empty = g.querySelector(".w-empty");
         if (empty) empty.remove();
-        g.insertBefore(wishCard(ownKey, { name:name, msg:msg, time:time, ts:ts }), g.firstChild);
+        g.insertBefore(wishCard(ownKey, payload), g.firstChild);
         if (adminMode) renderAdminReplyButtons();
       }
     }
-    toast("Your blessing has been sent privately 🤍");
+    toast("Thank you! Your RSVP has been received 🤍");
     loadWishCount();
   });
 }
