@@ -36,6 +36,7 @@ Interactive digital wedding invitation website customized for **Adv. Ruban Joe T
     ├── bg-clouds-deep.jpg       # Cloud texture
     ├── bg-clouds-soft.jpg       # Cloud texture
     ├── hero-clouds-sound.mp4    # Hero video background with sound
+    ├── wedding-bgm.mp3          # Custom romantic piano instrumental BGM uploaded by couple
     ├── DW-08.mp3                # Malayalam Christian instrumental BGM ("Nanniyode Njan Sthuthi Paadidum")
     ├── DW-31.mp3                # Alternate Christian romantic wedding track ("Anitta & Basil")
     ├── library.js               # Background music library catalog
