@@ -8,7 +8,7 @@ Interactive digital wedding invitation website customized for **Adv. Ruban Joe T
 - **Date**: Saturday, November 28, 2026
 - **Holy Matrimony**: 11:00 AM at St. Antony's Church, Anakkal, Kanjirapally
 - **Wedding Reception**: 12:45 PM onwards at St. Antony's Auditorium, Anakkal
-- **Contact Number**: +91 72597 58405
+- **Contact Number**: +91 94477 72306
 - **Special Mention**: Sharing the joy and happiness: Rayan Tom Toniyo, Anna Rins Toniyo
 
 ---
