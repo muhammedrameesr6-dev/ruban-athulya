@@ -470,6 +470,49 @@ section{position:relative;z-index:2}
 .fbl-quote cite{display:block;font-style:normal;font-family:'Cinzel',serif;font-size:9px;
   letter-spacing:.24em;text-transform:uppercase;color:var(--cloud-deep);margin-top:12px}
 
+/* ── GALLERY & LIGHTBOX ── */
+.gallery-section{padding:96px 0;background:rgba(235,243,251,.45);position:relative;overflow:hidden}
+.gallery-section::before{content:'';position:absolute;pointer-events:none;z-index:0;top:-160px;right:-120px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(142,169,198,.2) 0%,transparent 70%)}
+.gallery-inner{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:0 24px}
+.gallery-intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2vw,19px);color:var(--cloud-deep);max-width:580px;margin:0 auto 42px;line-height:1.7}
+.gallery-masonry{columns:3 280px;column-gap:18px}
+@media(max-width:820px){.gallery-masonry{columns:2 160px;column-gap:12px}}
+@media(max-width:480px){.gallery-masonry{columns:2 140px;column-gap:10px}}
+
+.gallery-item{break-inside:avoid;margin-bottom:18px;position:relative;border-radius:4px;overflow:hidden;cursor:pointer;background:#fff;box-shadow:0 6px 22px rgba(43,53,80,.08);border:1px solid rgba(142,169,198,.32);transition:transform .32s ease,box-shadow .32s ease,border-color .32s ease;-webkit-tap-highlight-color:transparent}
+.gallery-item:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(43,53,80,.18);border-color:var(--cloud-deep)}
+.gallery-item img{width:100%;height:auto;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
+.gallery-item:hover img{transform:scale(1.035)}
+.gallery-caption-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(25,36,60,.9) 0%,rgba(25,36,60,.25) 45%,transparent 100%);opacity:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px 14px;transition:opacity .28s ease;pointer-events:none}
+.gallery-item:hover .gallery-caption-overlay{opacity:1}
+.gco-title{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:#fff;margin-bottom:4px}
+.gco-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.35}
+
+/* Lightbox Modal */
+#galleryLightbox{display:none;position:fixed;inset:0;z-index:2000;background:rgba(15,20,35,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);align-items:center;justify-content:center;touch-action:none}
+#galleryLightbox.open{display:flex}
+.glb-content{position:relative;max-width:min(92vw,1000px);max-height:92vh;display:flex;flex-direction:column;align-items:center;animation:glbZoomIn .3s cubic-bezier(.16,1,.3,1)}
+@keyframes glbZoomIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.glb-content img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.15)}
+.glb-caption{text-align:center;color:#fff;margin-top:14px;padding:0 12px}
+.glb-title{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--cloud2);margin-bottom:4px}
+.glb-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:rgba(255,255,255,.8);margin-bottom:6px}
+.glb-counter{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.28em;color:rgba(255,255,255,.45);text-transform:uppercase}
+.glb-btn{position:absolute;background:rgba(43,53,80,.6);border:1px solid rgba(255,255,255,.2);color:#fff;cursor:pointer;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;z-index:10;-webkit-tap-highlight-color:transparent}
+.glb-btn:hover{background:rgba(43,53,80,.9);transform:scale(1.08)}
+.glb-close{top:20px;right:20px;font-size:26px;font-family:sans-serif}
+.glb-prev{left:20px;top:50%;transform:translateY(-50%);font-size:28px}
+.glb-next{right:20px;top:50%;transform:translateY(-50%);font-size:28px}
+.glb-prev:hover{transform:translateY(-50%) scale(1.08)}
+.glb-next:hover{transform:translateY(-50%) scale(1.08)}
+@media(max-width:640px){
+  .glb-btn{width:38px;height:38px}
+  .glb-close{top:14px;right:14px;font-size:22px}
+  .glb-prev{left:8px;font-size:24px}
+  .glb-next{right:8px;font-size:24px}
+  .glb-content img{max-height:72vh}
+}
+
 /* ── WISHES ── */
 .wishes-section{padding:96px 0;overflow:hidden;background:rgba(242,248,253,.46)}
 .wishes-section::after{content:'';position:absolute;pointer-events:none;z-index:0;
@@ -842,6 +885,21 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
   </div>
 </div>
 
+<!-- GALLERY LIGHTBOX -->
+<div id="galleryLightbox" onclick="closeLightbox(event)">
+  <button class="glb-btn glb-close" onclick="closeLightbox(event)" aria-label="Close">&times;</button>
+  <button class="glb-btn glb-prev" onclick="prevLightbox(event)" aria-label="Previous">&#8249;</button>
+  <button class="glb-btn glb-next" onclick="nextLightbox(event)" aria-label="Next">&#8250;</button>
+  <div class="glb-content" onclick="event.stopPropagation()">
+    <img id="glbImg" src="" alt="Gallery Photo">
+    <div class="glb-caption">
+      <div id="glbTitle" class="glb-title"></div>
+      <div id="glbDesc" class="glb-desc"></div>
+      <div id="glbCounter" class="glb-counter"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ADMIN bar -->
 <div id="adminBar">
   <span>&#9998; Admin</span>
@@ -887,6 +945,7 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
   <div class="nav-links">
     <a href="#details">Wedding</a>
     <a href="#family">Family</a>
+    <a href="#gallery">Gallery</a>
     <a href="#wishes">RSVP</a>
   </div>
 </nav>
@@ -1139,6 +1198,119 @@ body.pdf-capturing .hero-overlay,body.pdf-capturing #main{transition:none!import
       &ldquo;The Lord bless you and keep you; the Lord make his face shine on you and be gracious to you; the Lord turn his face toward you and give you peace.&rdquo;
       <cite>Numbers 6:24-26 &middot; Nuptial Blessing</cite>
     </p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-inner">
+    <div class="reveal" style="text-align:center">
+      <p class="s-label">Captured Moments</p>
+      <h2 class="s-title">Moments of<br><em>Love &amp; Togetherness</em></h2>
+      <div class="s-rule" style="margin:26px auto"></div>
+      <p class="gallery-intro">A glimpse into our joyous journey, cherished memories, and celebrations with beloved family and friends.</p>
+    </div>
+
+    <div class="gallery-masonry reveal">
+      <div class="gallery-item" onclick="openLightbox(0)">
+        <img src="assets/gallery/gallery-01.jpg" alt="Holy Matrimony Venue" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Holy Matrimony Venue</div>
+          <div class="gco-desc">Before the Lord at St. Antony's Church, Anakkal</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(1)">
+        <img src="assets/gallery/gallery-02.jpg" alt="Grace & Heritage" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Grace &amp; Heritage</div>
+          <div class="gco-desc">Traditional elegance and warm smiles</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(2)">
+        <img src="assets/gallery/gallery-03.jpg" alt="United in Heart & Soul" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">United in Heart &amp; Soul</div>
+          <div class="gco-desc">A timeless bond of love and companionship</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(3)">
+        <img src="assets/gallery/gallery-04.jpg" alt="The Promise of Forever" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">The Promise of Forever</div>
+          <div class="gco-desc">The blessed exchange of engagement rings</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(4)">
+        <img src="assets/gallery/gallery-05.jpg" alt="Circle of Endless Love" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Circle of Endless Love</div>
+          <div class="gco-desc">Cherished rings symbolizing eternal commitment</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(5)">
+        <img src="assets/gallery/gallery-06.jpg" alt="Aisle of Light & Joy" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Aisle of Light &amp; Joy</div>
+          <div class="gco-desc">Walking together amidst sparkles and celebration</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(6)">
+        <img src="assets/gallery/gallery-07.jpg" alt="Two Hearts, One Journey" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Two Hearts, One Journey</div>
+          <div class="gco-desc">Stepping forward into a beautiful new chapter</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(7)">
+        <img src="assets/gallery/gallery-08.jpg" alt="Forever & Always" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Forever &amp; Always</div>
+          <div class="gco-desc">A serene moment captured in royal elegance</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(8)">
+        <img src="assets/gallery/gallery-09.jpg" alt="Brothers for Life" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Brothers for Life</div>
+          <div class="gco-desc">Ruban walking with his closest friends &amp; brothers</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(9)">
+        <img src="assets/gallery/gallery-10.jpg" alt="Celebrations & Laughter" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Celebrations &amp; Laughter</div>
+          <div class="gco-desc">Joyous memories with friends and cousins</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(10)">
+        <img src="assets/gallery/gallery-11.jpg" alt="Parents' Love & Blessings" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Parents' Love &amp; Blessings</div>
+          <div class="gco-desc">Cherished moment with Dr. Antony Joseph &amp; Mrs. Nisha Antony</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(11)">
+        <img src="assets/gallery/gallery-12.jpg" alt="The Kallampally Family" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">The Kallampally Family</div>
+          <div class="gco-desc">Ruban with parents, brother &amp; sister</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(12)">
+        <img src="assets/gallery/gallery-13.jpg" alt="Sibling Bond" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">Sibling Bond</div>
+          <div class="gco-desc">A lifelong connection of love, warmth &amp; laughter</div>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(13)">
+        <img src="assets/gallery/gallery-14.jpg" alt="The Extended Family" loading="lazy">
+        <div class="gallery-caption-overlay">
+          <div class="gco-title">The Extended Family</div>
+          <div class="gco-desc">Grand family celebration on stage</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2039,6 +2211,91 @@ function checkOwnWishReplies() {
   });
 }
 document.addEventListener("visibilitychange", function(){ if (!document.hidden) checkOwnWishReplies(); });
+
+/* ===== GALLERY LIGHTBOX ===== */
+var galleryData = [
+  { src: "assets/gallery/gallery-01.jpg", title: "Holy Matrimony Venue", desc: "Before the Lord at St. Antony's Church, Anakkal" },
+  { src: "assets/gallery/gallery-02.jpg", title: "Grace & Heritage", desc: "Traditional elegance and warm smiles" },
+  { src: "assets/gallery/gallery-03.jpg", title: "United in Heart & Soul", desc: "A timeless bond of love and companionship" },
+  { src: "assets/gallery/gallery-04.jpg", title: "The Promise of Forever", desc: "The blessed exchange of engagement rings" },
+  { src: "assets/gallery/gallery-05.jpg", title: "Circle of Endless Love", desc: "Cherished rings symbolizing eternal commitment" },
+  { src: "assets/gallery/gallery-06.jpg", title: "Aisle of Light & Joy", desc: "Walking together amidst sparkles and celebration" },
+  { src: "assets/gallery/gallery-07.jpg", title: "Two Hearts, One Journey", desc: "Stepping forward into a beautiful new chapter" },
+  { src: "assets/gallery/gallery-08.jpg", title: "Forever & Always", desc: "A serene moment captured in royal elegance" },
+  { src: "assets/gallery/gallery-09.jpg", title: "Brothers for Life", desc: "Ruban walking with his closest friends & brothers" },
+  { src: "assets/gallery/gallery-10.jpg", title: "Celebrations & Laughter", desc: "Joyous memories with friends and cousins" },
+  { src: "assets/gallery/gallery-11.jpg", title: "Parents' Love & Blessings", desc: "Cherished moment with Dr. Antony Joseph & Mrs. Nisha Antony" },
+  { src: "assets/gallery/gallery-12.jpg", title: "The Kallampally Family", desc: "Ruban with parents, brother & sister" },
+  { src: "assets/gallery/gallery-13.jpg", title: "Sibling Bond", desc: "A lifelong connection of love, warmth & laughter" },
+  { src: "assets/gallery/gallery-14.jpg", title: "The Extended Family", desc: "Grand family celebration on stage" }
+];
+
+var curLightboxIdx = 0;
+function openLightbox(idx) {
+  curLightboxIdx = idx;
+  updateLightbox();
+  var lb = document.getElementById("galleryLightbox");
+  if (lb) lb.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeLightbox(e) {
+  if (e) e.stopPropagation();
+  var lb = document.getElementById("galleryLightbox");
+  if (lb) lb.classList.remove("open");
+  document.body.style.overflow = "";
+}
+function prevLightbox(e) {
+  if (e) e.stopPropagation();
+  curLightboxIdx = (curLightboxIdx - 1 + galleryData.length) % galleryData.length;
+  updateLightbox();
+}
+function nextLightbox(e) {
+  if (e) e.stopPropagation();
+  curLightboxIdx = (curLightboxIdx + 1) % galleryData.length;
+  updateLightbox();
+}
+function updateLightbox() {
+  var item = galleryData[curLightboxIdx];
+  if (!item) return;
+  var img = document.getElementById("glbImg");
+  var title = document.getElementById("glbTitle");
+  var desc = document.getElementById("glbDesc");
+  var counter = document.getElementById("glbCounter");
+  if (img) img.src = item.src;
+  if (title) title.textContent = item.title;
+  if (desc) desc.textContent = item.desc;
+  if (counter) counter.textContent = (curLightboxIdx + 1) + " / " + galleryData.length;
+}
+
+window.addEventListener("keydown", function(e) {
+  var lb = document.getElementById("galleryLightbox");
+  if (!lb || !lb.classList.contains("open")) return;
+  if (e.key === "Escape") closeLightbox();
+  else if (e.key === "ArrowLeft") prevLightbox();
+  else if (e.key === "ArrowRight") nextLightbox();
+});
+
+(function(){
+  var startX = 0, startY = 0;
+  var lb = document.getElementById("galleryLightbox");
+  if (!lb) return;
+  lb.addEventListener("touchstart", function(e){
+    if (e.touches.length === 1) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  lb.addEventListener("touchend", function(e){
+    if (e.changedTouches.length === 1) {
+      var dx = e.changedTouches[0].clientX - startX;
+      var dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) nextLightbox();
+        else prevLightbox();
+      }
+    }
+  }, { passive: true });
+})();
 
 /* ===== WEDDING CARD (standard #25) ===== */
 function cardDownloadHint(){
